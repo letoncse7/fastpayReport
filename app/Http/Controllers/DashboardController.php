@@ -23,6 +23,10 @@ class DashboardController extends Controller
 
     public function index()
     {
+
+         //if (auth()->user()->type !=="Admin")
+                     //abort(403);
+
         try {
 
                 $title = 'Welcome To Dashboard';
@@ -88,9 +92,8 @@ class DashboardController extends Controller
 
         $db_raw = DB::raw(" `trn_date` BETWEEN '".$request->_fromDate."' AND '".$request->_toDate."'");
         
-    
         $totalDailyTranasction = DailyTypewiseDetails::select('type_name as name', DB::raw('SUM(qty) as quantity, SUM(dailysales) as amount, SUM(arpu) as arpu'))
-                                ->whereRaw($db_raw)->groupBy("type")
+                                ->whereRaw($db_raw)->whereNotIn("type", [14])->groupBy("type")
                                 ->get();
 
         return $totalDailyTranasction;
@@ -99,12 +102,11 @@ class DashboardController extends Controller
 
    public function getSingleTypeChart($request){
               
-        $type = $request->_type=='all' ? [1, 6, 15, 19 ] : [$request->_type];
-
+        
          $db_raw = DB::raw(" `trn_date` BETWEEN '".$request->_fromDate."' AND '".$request->_toDate."'");
 
          $totalDailyTranasction = DailyTransactionDetails::select('name', 'type',  DB::raw('SUM(numbers) as quantity, SUM(dailysales) as amount, SUM(arpu) as arpu'))
-                                 ->whereIn("type", $type)
+                                 ->whereIn("type", [$request->_type])
                                  ->whereRaw($db_raw)
                                  ->groupBy("receiver_id")
                                  ->get();
@@ -116,22 +118,29 @@ class DashboardController extends Controller
 
    public function dashboardReport(Request $request){
 
-         $typewise_chart = [];
-         $single_chart = [];
+         $data = [];
 
          try {
+          
+          if($request->_type=="all"){
 
-          $typewise_chart = $this->getTypeWiseChart($request);
+            $data = $this->getTypeWiseChart($request);
 
-          $single_chart = $this->getSingleTypeChart($request);
+          }
+          else{
 
+            $data = $this->getSingleTypeChart($request);
+
+          }
+
+          
           $summary = $this->summaryReportDashboard($request);
 
-          return response()->json(["typewise"=>$typewise_chart, "single_chart"=>$single_chart, "summary"=>$summary, 'message'=>"Success!!", "code"=>200]);
+          return response()->json(["chart"=>$data, "summary"=>$summary, 'message'=>"Success!!", "code"=>200]);
              
          } catch (Exception $e) {
 
-            return response()->json(["typewise"=>[], "single_chart"=>[], "summary"=>[], 'message'=>"Bad Request!!", "code"=>"420"]);
+            return response()->json(["chart"=>[], "summary"=>[], 'message'=>"Bad Request!!", "code"=>"420"]);
              
          }
 
@@ -158,18 +167,23 @@ class DashboardController extends Controller
                                                 ->whereRaw("`trn_date` BETWEEN '".$from_date."' AND '".$to_date."'")
                                                 ->where("type", 4)
                                                 ->first();
+
+
               
 
                 
-
-                $previous_day_summary = DailyTransactionDetails::selectRaw("
+            $previous_day_summary = DailyTransactionDetails::selectRaw("
                                                     SUM(`numbers`) as quantity, SUM(`dailysales`) as amount, SUM(`arpu`) as arpu
                                                    ")
                                                 ->whereRaw("`trn_date` BETWEEN '".$from_date."' - INTERVAL 1 DAY AND '".$from_date."' - INTERVAL 1 SECOND")
                                                 ->where("type", 4)
                                                 ->first();
 
-                if($current_day_summary->quantity > 0 &  $current_day_summary->amount > 0){
+
+
+
+
+            if($current_day_summary->quantity > 0 &  $current_day_summary->amount > 0){
 
                 $cashIn_quantity = $current_day_summary->quantity;
 

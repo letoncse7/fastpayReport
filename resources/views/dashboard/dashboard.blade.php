@@ -22,7 +22,7 @@
                     <div class="col-md-2">
                                             
                                             <select class="form-control" name="type" id="type" >
-                                                <option value="all">All</option>
+                                                <option value="all">All Type</option>
                                                 <option value="6">Airtime</option>
                                                 <option value="15">Data Bundle</option>
                                                 <option value="19">Online Card</option>
@@ -186,12 +186,9 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 mt-4">
                             <div class="card mt-2 mb-4">
-                                <div class="card-header bg-transparent"><h3>Transaction Report</h3></div>
+                                <div class="card-header bg-transparent"><h3>Transaction Report For <span id="transaction_type_txt">All Type</span></h3></div>
                                 <div class="card-body">
-                                      
-                
-                                        
-                                            <div class="tab-pane fade show active all" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" >
+                                            <div class="tab-pane fade show active all" id="nav-chart-all" >
                                               <div class="ul-product-detail__nested-card mt-2">
                                                     <div class="row text-center">
                                                         <div class="col-lg-4 col-sm-12">
@@ -223,130 +220,7 @@
                                                 <!-- END OF CHART -->
                                                 
                                             </div>
-                                            <div class="tab-pane fade show all" id="nav-chart-6">
-                                                <div class="ul-product-detail__nested-card mt-2">
-                                                    <div class="row text-center">
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Quantity</div>
-                                                                    <div id="chartAirtimeQ" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Amount</div>
-                                                                    <div id="chartAirtimeA" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">ARPU</div>
-                                                                    <div id="chartAirtimeR" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END OF CHART -->
-                                            </div>
-                                            <div class="tab-pane show fade all" id="nav-chart-15">
-                                                <div class="ul-product-detail__nested-card mt-2">
-                                                    <div class="row text-center">
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Quantity</div>
-                                                                    <div id="chartDataBundleQ" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Amount</div>
-                                                                    <div id="chartDataBundleA" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">ARPU</div>
-                                                                    <div id="chartDataBundleR" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END OF CHART -->
-                                            </div>
-                                            <div class="tab-pane fade show all" id="nav-chart-19">
-                                                <div class="ul-product-detail__nested-card mt-2">
-                                                    <div class="row text-center">
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Quantity</div>
-                                                                    <div id="chartOnlineCardQ" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Amount</div>
-                                                                    <div id="chartOnlineCardA" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">ARPU</div>
-                                                                    <div id="chartOnlineCardR" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END OF CHART -->
-                                            </div>
-                                            <div class="tab-pane fade show all" id="nav-chart-1">
-                                                <div class="ul-product-detail__nested-card mt-2">
-                                                    <div class="row text-center">
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Quantity</div>
-                                                                    <div id="chartOnlineShopQ" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">Sales by Amount</div>
-                                                                    <div id="chartOnlineShopA" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-sm-12">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <div class="card-title">ARPU</div>
-                                                                    <div id="chartOnlineShopR" style="height: 300px;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END OF CHART -->
-                                            </div>
+                                           
                                         
                                     </div>
                                 </div>
