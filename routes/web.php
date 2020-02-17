@@ -32,6 +32,10 @@ Route::view('others/user-profile', 'others.user-profile')->name('user-profile');
 
 Route::resource('user-profile', 'UserController');
 
+Route::get('/get-chart-report', 'DashboardController@chartReport')->name('get-chart-report');
+
+Route::post('/monthly-daily-transaction-data', 'DashboardController@getDataForTransactionChart');
+
 
 });
 

@@ -68,7 +68,7 @@ class DashboardController extends Controller
                                                 ->orderBy("quantity", "DESC")
                                                 ->first();
 
-                $max_amount = DailyTransactionDetails::selectRaw("name, SUM(`dailysales`) as amount")
+                $max_amount = DailyTransactionDetails::selectRaw("name, SUM(`dailysales`)  as amount")
                                                 ->whereRaw("`trn_date` BETWEEN '".$current_date."' AND '".$current_date."'")
                                                 ->where("type", 4)
                                                 ->groupBy("receiver_id")
@@ -227,6 +227,107 @@ class DashboardController extends Controller
 
             abort(503);
         }
+
+   }
+
+
+   public function chartReport(){
+
+      $title = "Bar Chart";
+      return view('dashboard.chart', compact('title'));
+
+   }
+
+
+
+   public function getDataForTransactionChart(Request $repquest){
+
+    
+
+     try {
+
+       $year = $repquest->_year;
+
+       $db_raw = DB::raw("YEAR(trn_date) ='$year'");
+
+      $totalMonthlyTranasction = DailyTransactionDetails::select(DB::raw('SUM(dailysales) as amount'), DB::raw('YEAR(trn_date) year, MONTH(trn_date) month,
+                                 CASE 
+                                      WHEN month(`trn_date`) = 1 THEN "January"
+                                      WHEN month(`trn_date`) = 2 THEN "February"
+                                      WHEN month(`trn_date`) = 3 THEN "March"
+                                      WHEN month(`trn_date`) = 4 THEN "April"
+                                      WHEN month(`trn_date`) = 5 THEN "May"
+                                      WHEN month(`trn_date`) = 6 THEN "June"
+                                      WHEN month(`trn_date`) = 7 THEN "July"
+                                      WHEN month(`trn_date`) = 8 THEN "August"
+                                      WHEN month(`trn_date`) = 9 THEN "September"
+                                      WHEN month(`trn_date`) = 10 THEN "October"
+                                      WHEN month(`trn_date`) = 11 THEN "November"
+                                      WHEN month(`trn_date`) = 12 THEN "December"
+                                      ELSE "Not Define"       
+                                  END AS MonthText'))
+                                 ->whereRaw($db_raw)
+                                 ->groupBy('year','month')
+                                 ->get();
+
+     
+      $totalDailyTranasction = DailyTransactionDetails::select(DB::raw('SUM(dailysales) as amount'), DB::raw('YEAR(trn_date) year, MONTH(trn_date) month,
+                                 DAY(trn_date) day, CASE 
+                                      WHEN month(`trn_date`) = 1 THEN "January"
+                                      WHEN month(`trn_date`) = 2 THEN "February"
+                                      WHEN month(`trn_date`) = 3 THEN "March"
+                                      WHEN month(`trn_date`) = 4 THEN "April"
+                                      WHEN month(`trn_date`) = 5 THEN "May"
+                                      WHEN month(`trn_date`) = 6 THEN "June"
+                                      WHEN month(`trn_date`) = 7 THEN "July"
+                                      WHEN month(`trn_date`) = 8 THEN "August"
+                                      WHEN month(`trn_date`) = 9 THEN "September"
+                                      WHEN month(`trn_date`) = 10 THEN "October"
+                                      WHEN month(`trn_date`) = 11 THEN "November"
+                                      WHEN month(`trn_date`) = 12 THEN "December"
+                                      ELSE "Not Define"       
+                                  END AS MonthText'))
+                                 ->whereRaw($db_raw)
+                                 ->groupBy('trn_date')
+                                 ->get();
+          $day = [];
+          foreach ($totalDailyTranasction as $key => $value) {
+
+             $day[$value->MonthText][] = [$value->day, (float)$value->amount];
+          
+          }
+
+          $daily_transaction_data = [];
+
+          foreach ($day as $key => $value) {
+            
+            $daily_transaction_data[] = ["name"=>$key, "id"=>$key, "data"=>$value];
+
+          }
+
+
+
+      
+
+          $monthly_transaction_data = [];
+
+          foreach ($totalMonthlyTranasction as $key => $value) {
+
+                    
+                    $monthly_transaction_data[] = ["name"=>$value->MonthText, "y"=>(float)$value->amount, "drilldown"=>$value->MonthText];
+
+          }
+
+          return response()->json(["monthly"=>$monthly_transaction_data, "daily"=>$daily_transaction_data, 'message'=>"Success!!", "code"=>200]);
+             
+         } catch (Exception $e) {
+
+          return response()->json(["monthly"=>[], "daily"=>[], 'message'=>"Bad Request!!", "code"=>"420"]);
+             
+         }
+
+
+
 
    }
 
