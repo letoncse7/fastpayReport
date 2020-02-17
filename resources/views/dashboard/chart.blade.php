@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="container"></div>
-                            <p class="highcharts-description">
+                            <p class="highcharts-description text-center">
                                 Chart showing month wise transaction amount. Clicking on individual columns
                                 brings up more detailed data. That are daily transaction amount. 
                             </p>
