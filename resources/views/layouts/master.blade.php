@@ -142,6 +142,99 @@
 
 
     });
+
+
+</script>
+
+     <script type="text/javascript">
+
+
+     function chartData(){
+
+        var csrf_token  = document.head.querySelector('meta[name="csrf-token"]').content;
+       $.ajax({
+                url: window.location.origin + '/' + 'monthly-daily-transaction-data',
+                type: 'POST',
+                data: {
+                    '_token': csrf_token,
+                    '_year': $("#year").val()
+                },
+                success: function( data, textStatus, jQxhr ){
+
+                        // Create the chart
+                        var title = 'FastPay Month Wise Transaction For The Year Of-<span id="change-year">'+ $("#year").val() +'</span>';
+                        var monthly_data = data.monthly;
+                        var daily_data = data.daily;
+
+                      
+
+                        Highcharts.chart('container', {
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: title
+                            },
+                            subtitle: {
+                                text: 'Click the columns to view day wise transaction amount.'
+                            },
+                            accessibility: {
+                                announceNewData: {
+                                    enabled: true
+                                }
+                            },
+                            xAxis: {
+                                type: 'category'
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Total Transaction Amount'
+                                }
+
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            plotOptions: {
+                                series: {
+                                    borderWidth: 0,
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '{point.y:.2f}'
+                                    }
+                                }
+                            },
+
+                            tooltip: {
+                                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b> IQD {point.y:.2f}</b><br/>'
+                            },
+
+                            series: [
+                                {
+                                    name: "FastPay Transaction Amount",
+                                    colorByPoint: true,
+                                    data: monthly_data
+                                }
+                            ],
+                            drilldown: {
+                                series: daily_data
+                            }
+                        });
+                          $(".highcharts-credits").hide();
+
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+           });
+
+
+
+     }
+
+     window.load = chartData();
+
 </script>
 
 </html>

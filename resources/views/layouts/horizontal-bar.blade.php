@@ -31,43 +31,10 @@
 
 Sales
                                         </label>
-                                        <a href="#">
+                                        <a href="{{route('get-chart-report')}}">
                                             <i class="nav-icon mr-2 i-Suitcase"></i>Sales
                                         </a>
-                                    <ul>
-                                        <li class="nav-item">
-                    <a class="{{ Route::currentRouteName()=='alerts' ? 'open' : '' }}" href="#">
-                            <i class="nav-icon mr-2 i-Bell1"></i>
-                            <span class="item-name">Alerts</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="{{ Route::currentRouteName()=='badges' ? 'open' : '' }}" href="#">
-                            <i class="nav-icon mr-2 i-Medal-2"></i>
-                            <span class="item-name">Badges</span>
-                        </a>
-                    </li>
-                      <li class="nav-item">
-                        <a class="{{ Route::currentRouteName()=='bootstrap-tab' ? 'open' : '' }}" href="#">
-                            <i class="nav-icon mr-2 i-Cursor-Click"></i>
-                            <span class="item-name">Bootstrap tab</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="{{ Route::currentRouteName()=='buttons' ? 'open' : '' }}" href="#">
-                            <i class="nav-icon mr-2 i-Cursor-Click"></i>
-                            <span class="item-name">Buttons</span>
-                        </a>
-                    </li>
-                          <li class="nav-item">
-                        <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="#">
-                            <i class="nav-icon mr-2 i-Split-Horizontal-2-Window"></i>
-                            <span class="item-name">Accordion</span>
-                        </a>
-                    </li>
-                                    
-                        </ul>
+                                   
                                     </div>
                                 </div>
                             </li>
